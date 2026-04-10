@@ -1,0 +1,4 @@
+[submodule "GameEngine"]
+	path = GameEngine
+	url = https://github.com/B50calabrese/GameEngine
+	branch = master
