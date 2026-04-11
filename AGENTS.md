@@ -2,6 +2,10 @@
 
 Welcome, AI agent! This file provides guidance on how to contribute to this repository.
 
+## Project Status and Progress
+- **Status File**: Current progress, scene status, and infrastructure details are tracked in [STATUS.md](STATUS.md).
+- **Mandatory Update**: As the final step of any task, you **must** update [STATUS.md](STATUS.md) with your changes, the new state of any modified scenes/infrastructure, and your recommendations for future work.
+
 ## Coding Standards
 
 - **Google C++ Style Guide**: This project follows the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
