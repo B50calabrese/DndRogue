@@ -30,3 +30,15 @@ Welcome, AI agent! This file provides guidance on how to contribute to this repo
 - Assets should be placed in the `assets/` directory.
 - The build system copies assets to the build directory so they can be loaded using relative paths.
 - Use the `ENGINE_ASSETS_PATH` macro in C++ code to reference the asset directory.
+
+## Scenes and Their Intentions
+
+To maintain consistency and help future agents understand the game's flow, here is an overview of the initial scenes:
+
+- **MainMenuScene**: The entry point of the game. Handles top-level navigation (New Game, Settings, Quit).
+- **StartRunScene**: The transition between the main menu and the game. Responsible for character selection, difficulty settings, and other pre-run configurations.
+- **OverworldScene**: The primary exploration hub of the roguelike. Manages map navigation, event triggers, and movement between combat encounters.
+- **BattleScene**: Handles the isometric combat encounters. This is where tactical, turn-based battle logic resides.
+- **MenuScene**: An in-game/pause menu. Intended to be pushed onto the scene stack to allow for inventory management, settings, or pausing without losing current scene state.
+
+Please ensure any new logic related to these areas is implemented in their respective scene classes.
