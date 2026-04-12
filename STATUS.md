@@ -26,15 +26,15 @@ This file tracks the current progress, state of the game, and infrastructure. **
 ### MainMenuScene
 - **Intent**: Entry point for navigation.
 - **Lifecycle Methods**:
-  - [x] `OnAttach`: Logging implemented.
+  - [x] `OnAttach`: Implemented full UI setup with ECS.
   - [x] `OnDetach`: Logging implemented.
-  - [ ] `OnUpdate`: Stub.
-  - [ ] `OnRender`: Stub.
-  - [ ] `OnInput`: Stub.
+  - [x] `OnUpdate`: Logic handled by ECS UI systems.
+  - [x] `OnRender`: Rendering handled by `UIRenderSystem`.
+  - [x] `OnInput`: Input handled by `UIInputSystem`.
 - **Features**:
-  - [ ] Menu selection logic.
-  - [ ] UI Rendering (New Game, Settings, Quit).
-  - [ ] Input handling for navigation.
+  - [x] Menu selection logic (Hover effects, Click events).
+  - [x] UI Rendering (Start run, Exit buttons).
+  - [x] Input handling for navigation and application exit.
 
 ### StartRunScene
 - **Intent**: Character selection and run configuration.
