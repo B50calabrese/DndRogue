@@ -28,9 +28,9 @@ void StartRunScene::OnAttach() {
   LOG_INFO("StartRunScene: Attached");
 
   engine::graphics::TextRenderer::Get().LoadFont(
-      "menu_font", "assets/fonts/menu_font.ttf", 24);
+      "menu_font", "fonts/menu_font.ttf", 24);
   engine::graphics::TextRenderer::Get().LoadFont(
-      "small_font", "assets/fonts/menu_font.ttf", 16);
+      "small_font", "fonts/menu_font.ttf", 16);
 
   CreateUI();
 }

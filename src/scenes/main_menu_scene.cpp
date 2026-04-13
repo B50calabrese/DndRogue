@@ -23,7 +23,7 @@ void MainMenuScene::OnAttach() {
 
   // Load font
   engine::graphics::TextRenderer::Get().LoadFont(
-      "menu_font", "assets/fonts/menu_font.ttf", 24);
+      "menu_font", "fonts/menu_font.ttf", 24);
 
   auto& win = engine::Engine::window();
   float screen_width = static_cast<float>(win.width());
