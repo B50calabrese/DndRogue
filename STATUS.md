@@ -39,14 +39,16 @@ This file tracks the current progress, state of the game, and infrastructure. **
 ### StartRunScene
 - **Intent**: Character selection and run configuration.
 - **Lifecycle Methods**:
-  - [x] `OnAttach`: Logging implemented.
+  - [x] `OnAttach`: Full character selection UI implemented.
   - [x] `OnDetach`: Logging implemented.
-  - [ ] `OnUpdate`: Stub.
-  - [ ] `OnRender`: Stub.
-  - [ ] `OnInput`: Stub.
+  - [x] `OnUpdate`: Logic for UI interactions.
+  - [x] `OnRender`: Rendering via ECS UI systems.
+  - [x] `OnInput`: Handled via ECS UI interaction system.
 - **Features**:
-  - [ ] Character selection UI.
-  - [ ] Difficulty/Option configuration.
+  - [x] 4-character selection columns (25% width each).
+  - [x] Class picker (3x4 grid) for all 12 D&D classes.
+  - [x] Real-time class color and name feedback.
+  - [x] "Start Run" button to persist party and transition to Overworld.
 
 ### OverworldScene
 - **Intent**: Roguelike map exploration.
@@ -89,5 +91,5 @@ This file tracks the current progress, state of the game, and infrastructure. **
 ## Recommendations for Next Steps
 1. **Scene Navigation**: Implement the logic to transition from `MainMenuScene` to `StartRunScene` and then to `OverworldScene`.
 2. **UI Framework**: Integrate or implement a basic UI rendering system (potentially using ImGui if supported by the engine) to handle buttons and menus.
-3. **Data Models**: Define the data structures for Characters, Items, and Enemies to be used across `BattleScene` and `OverworldScene`.
+3. **Data Models**: Expand the `Character` class with stats, skills, and items. Define enemy data models.
 4. **Isometric Rendering**: Start implementing the isometric coordinate system and grid rendering in `BattleScene`.

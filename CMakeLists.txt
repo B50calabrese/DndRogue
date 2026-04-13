@@ -12,6 +12,7 @@ add_subdirectory("GameEngine")
 set(SOURCE_FILES
     "src/dnd_rogue_app.cpp"
     "src/core/ui_utils.cpp"
+    "src/core/session.cpp"
     "src/scenes/battle_scene.cpp"
     "src/scenes/main_menu_scene.cpp"
     "src/scenes/menu_scene.cpp"
@@ -76,8 +77,8 @@ if(BUILD_GAME_TESTS)
         set_target_properties(${TEST_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
     endfunction()
 
-    # Automatically discover and add tests from tests/
-    file(GLOB_RECURSE GAME_TEST_SOURCES "tests/*_test.cpp")
+    # Automatically discover and add tests from tests/ and src/
+    file(GLOB_RECURSE GAME_TEST_SOURCES "tests/*_test.cpp" "src/*_test.cpp")
     foreach(TEST_SOURCE ${GAME_TEST_SOURCES})
         get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
         add_game_test(${TEST_NAME} ${TEST_SOURCE})
