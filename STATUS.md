@@ -53,15 +53,17 @@ This file tracks the current progress, state of the game, and infrastructure. **
 ### OverworldScene
 - **Intent**: Roguelike map exploration.
 - **Lifecycle Methods**:
-  - [x] `OnAttach`: Logging implemented.
+  - [x] `OnAttach`: Map generation and camera initialization.
   - [x] `OnDetach`: Logging implemented.
-  - [ ] `OnUpdate`: Stub.
-  - [ ] `OnRender`: Stub.
-  - [ ] `OnInput`: Stub.
+  - [x] `OnUpdate`: Camera management.
+  - [x] `OnRender`: Full grid and UI divider rendering.
+  - [x] `OnInput`: Player movement with collision.
 - **Features**:
-  - [ ] Map generation/loading.
-  - [ ] Player movement on map.
-  - [ ] Event trigger logic.
+  - [x] Procedural room generation (`RoomGenerator`).
+  - [x] Configurable tile size and grid size.
+  - [x] Placeholder colors for tiles (Floor, Wall, Enemy, Chest, Portal, Player).
+  - [x] Camera following with map boundary clamping.
+  - [x] Movement via WASD/Arrow keys with wall collision.
 
 ### BattleScene
 - **Intent**: Tactical isometric combat.
