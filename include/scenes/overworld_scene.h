@@ -5,6 +5,7 @@
 #include <engine/graphics/camera.h>
 #include "core/overworld/map_data.h"
 #include "core/overworld/map_config.h"
+#include "core/overworld/map_renderer.h"
 
 namespace dnd_rogue::scenes {
 
@@ -28,10 +29,15 @@ class OverworldScene : public engine::Scene {
  private:
   void UpdateCamera();
   void HandleMovement(int dx, int dy);
+  void RenderUI();
+
+  static constexpr float kUIDividerXPercent = 0.9f;
+  static constexpr float kUIDividerThickness = 2.0f;
 
   core::overworld::MapConfig map_config_;
   std::unique_ptr<core::overworld::MapData> map_data_;
   std::unique_ptr<engine::graphics::Camera> camera_;
+  core::overworld::MapRenderer map_renderer_;
 };
 
 }  // namespace dnd_rogue::scenes

@@ -14,6 +14,7 @@ set(SOURCE_FILES
     "src/core/ui_utils.cpp"
     "src/core/session.cpp"
     "src/core/overworld/room_generator.cpp"
+    "src/core/overworld/map_renderer.cpp"
     "src/scenes/battle_scene.cpp"
     "src/scenes/main_menu_scene.cpp"
     "src/scenes/menu_scene.cpp"
