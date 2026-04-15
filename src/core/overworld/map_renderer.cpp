@@ -18,8 +18,10 @@ void MapRenderer::RenderTiles(const MapData& map, float tile_size) {
   for (int y = 0; y < map.height(); ++y) {
     for (int x = 0; x < map.width(); ++x) {
       glm::vec2 pos = {x * tile_size, y * tile_size};
-      glm::vec4 color = GetTileColor(map.GetTile(x, y));
+      Tile tile = map.GetTile(x, y);
+      glm::vec4 color = GetTileColor(tile.type);
 
+      // In the future, 'tile.variant' can be used to select different textures or colors
       engine::graphics::PrimitiveRenderer::SubmitQuad(
           pos, {tile_size, tile_size}, color);
     }

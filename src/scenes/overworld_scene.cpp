@@ -8,6 +8,7 @@
 #include "engine/graphics/primitive_renderer.h"
 #include "engine/input/input_manager.h"
 #include "core/overworld/room_generator.h"
+#include "core/overworld/overworld_utils.h"
 
 namespace dnd_rogue::scenes {
 
@@ -39,10 +40,8 @@ void OverworldScene::OnUpdate(float delta_time_seconds) {
 void OverworldScene::OnRender() {
   if (!map_data_ || !camera_) return;
 
-  // Render the map and player
   map_renderer_.Render(*map_data_, map_config_, camera_->view_projection_matrix());
 
-  // Render UI elements
   RenderUI();
 }
 
@@ -51,7 +50,6 @@ void OverworldScene::RenderUI() {
   float screen_width = static_cast<float>(win.width());
   float screen_height = static_cast<float>(win.height());
 
-  // Use a screen-space projection for UI
   glm::mat4 screen_proj = glm::ortho(0.0f, screen_width, screen_height, 0.0f, -1.0f, 1.0f);
   engine::graphics::PrimitiveRenderer::StartBatch(screen_proj);
 
@@ -92,7 +90,7 @@ void OverworldScene::HandleMovement(int dx, int dy) {
   if (map_data_->IsWalkable(new_pos.x, new_pos.y)) {
     map_data_->set_player_pos(new_pos);
 
-    core::overworld::TileType target_tile = map_data_->GetTile(new_pos.x, new_pos.y);
+    core::overworld::TileType target_tile = map_data_->GetTile(new_pos.x, new_pos.y).type;
     if (target_tile == core::overworld::TileType::kEnemy) {
       // TODO: Trigger battle
     } else if (target_tile == core::overworld::TileType::kPortal) {
@@ -118,16 +116,12 @@ void OverworldScene::UpdateCamera() {
   float tile_size = map_config_.tile_size;
   glm::ivec2 p_pos = map_data_->player_pos();
 
-  float target_x = (p_pos.x + 0.5f) * tile_size - drawable_width * 0.5f;
-  float target_y = (p_pos.y + 0.5f) * tile_size - drawable_height * 0.5f;
+  glm::vec2 target_world_pos = { (p_pos.x + 0.5f) * tile_size, (p_pos.y + 0.5f) * tile_size };
+  glm::vec2 drawable_size = { drawable_width, drawable_height };
+  glm::vec2 map_size = { map_data_->width() * tile_size, map_data_->height() * tile_size };
 
-  float max_camera_x = std::max(0.0f, map_data_->width() * tile_size - drawable_width);
-  float max_camera_y = std::max(0.0f, map_data_->height() * tile_size - drawable_height);
-
-  target_x = std::clamp(target_x, 0.0f, max_camera_x);
-  target_y = std::clamp(target_y, 0.0f, max_camera_y);
-
-  camera_->set_position({target_x, target_y, 0.0f});
+  camera_->set_position(core::overworld::OverworldUtils::CalculateCameraPosition(
+      target_world_pos, drawable_size, map_size));
 }
 
 }  // namespace dnd_rogue::scenes

@@ -7,11 +7,10 @@ namespace dnd_rogue::core::overworld {
 std::unique_ptr<MapData> RoomGenerator::Generate(const MapConfig& config) {
   auto map = std::make_unique<MapData>(config.width, config.height);
 
-  // Fill with walls initially or "none" (empty)
-  // Let's use walls as the base for room carving
+  // Fill with walls initially
   for (int y = 0; y < config.height; ++y) {
     for (int x = 0; x < config.width; ++x) {
-      map->SetTile(x, y, TileType::kWall);
+      map->SetTileType(x, y, TileType::kWall);
     }
   }
 
@@ -65,13 +64,12 @@ std::unique_ptr<MapData> RoomGenerator::Generate(const MapConfig& config) {
   if (!rooms.empty()) {
     glm::ivec2 start_pos = rooms[0].Center();
     map->set_player_pos(start_pos);
-    // map->SetTile(start_pos.x, start_pos.y, TileType::kPlayer); // Player is rendered separately usually
   }
 
   // Place Portal in the last room
   if (!rooms.empty()) {
     glm::ivec2 portal_pos = rooms.back().Center();
-    map->SetTile(portal_pos.x, portal_pos.y, TileType::kPortal);
+    map->SetTileType(portal_pos.x, portal_pos.y, TileType::kPortal);
   }
 
   // Place some enemies and chests randomly in floor tiles
@@ -79,23 +77,27 @@ std::unique_ptr<MapData> RoomGenerator::Generate(const MapConfig& config) {
   std::uniform_int_distribution<> dis_map_y(0, config.height - 1);
 
   int enemies_placed = 0;
-  while (enemies_placed < 3) {
+  int retry_count = 0;
+  while (enemies_placed < 3 && retry_count < 100) {
     int ex = dis_map_x(gen);
     int ey = dis_map_y(gen);
-    if (map->GetTile(ex, ey) == TileType::kFloor && map->player_pos() != glm::ivec2(ex, ey)) {
-      map->SetTile(ex, ey, TileType::kEnemy);
+    if (map->GetTile(ex, ey).type == TileType::kFloor && map->player_pos() != glm::ivec2(ex, ey)) {
+      map->SetTileType(ex, ey, TileType::kEnemy);
       enemies_placed++;
     }
+    retry_count++;
   }
 
   int chests_placed = 0;
-  while (chests_placed < 2) {
+  retry_count = 0;
+  while (chests_placed < 2 && retry_count < 100) {
     int cx = dis_map_x(gen);
     int cy = dis_map_y(gen);
-    if (map->GetTile(cx, cy) == TileType::kFloor && map->player_pos() != glm::ivec2(cx, cy)) {
-      map->SetTile(cx, cy, TileType::kChest);
+    if (map->GetTile(cx, cy).type == TileType::kFloor && map->player_pos() != glm::ivec2(cx, cy)) {
+      map->SetTileType(cx, cy, TileType::kChest);
       chests_placed++;
     }
+    retry_count++;
   }
 
   return map;
@@ -104,20 +106,20 @@ std::unique_ptr<MapData> RoomGenerator::Generate(const MapConfig& config) {
 void RoomGenerator::ApplyRoomToMap(MapData& map, const Room& room) {
   for (int y = room.y; y < room.y + room.h; ++y) {
     for (int x = room.x; x < room.x + room.w; ++x) {
-      map.SetTile(x, y, TileType::kFloor);
+      map.SetTileType(x, y, TileType::kFloor);
     }
   }
 }
 
 void RoomGenerator::ApplyHorizontalTunnel(MapData& map, int x1, int x2, int y) {
   for (int x = std::min(x1, x2); x <= std::max(x1, x2); ++x) {
-    map.SetTile(x, y, TileType::kFloor);
+    map.SetTileType(x, y, TileType::kFloor);
   }
 }
 
 void RoomGenerator::ApplyVerticalTunnel(MapData& map, int y1, int y2, int x) {
   for (int y = std::min(y1, y2); y <= std::max(y1, y2); ++y) {
-    map.SetTile(x, y, TileType::kFloor);
+    map.SetTileType(x, y, TileType::kFloor);
   }
 }
 

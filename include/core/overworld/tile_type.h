@@ -2,6 +2,7 @@
 #define DND_ROGUE_CORE_OVERWORLD_TILE_TYPE_H_
 
 #include <glm/glm.hpp>
+#include <cstdint>
 
 namespace dnd_rogue::core::overworld {
 
@@ -16,6 +17,14 @@ enum class TileType {
   kPortal,  // Yellow - Portal
   kChest,   // Orange - Chest
   kWall     // Grey - Wall
+};
+
+/**
+ * @brief Represents a single tile on the map with additional metadata.
+ */
+struct Tile {
+  TileType type = TileType::kNone;
+  uint32_t variant = 0; // Can represent different enemy types, floor textures, etc.
 };
 
 /**

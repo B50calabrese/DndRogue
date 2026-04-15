@@ -18,28 +18,37 @@ class MapData {
    * @param height The height of the grid in tiles.
    */
   MapData(int width, int height)
-      : width_(width), height_(height), tiles_(width * height, TileType::kNone) {}
+      : width_(width), height_(height), tiles_(width * height, {TileType::kNone, 0}) {}
 
   /**
-   * @brief Gets the tile type at the specified coordinates.
+   * @brief Gets the tile at the specified coordinates.
    * @param x The x-coordinate.
    * @param y The y-coordinate.
-   * @return The TileType at the given position, or TileType::kNone if out of bounds.
+   * @return The Tile at the given position, or a default Tile (kNone) if out of bounds.
    */
-  TileType GetTile(int x, int y) const {
-    if (x < 0 || x >= width_ || y < 0 || y >= height_) return TileType::kNone;
+  Tile GetTile(int x, int y) const {
+    if (x < 0 || x >= width_ || y < 0 || y >= height_) return {TileType::kNone, 0};
     return tiles_[y * width_ + x];
   }
 
   /**
-   * @brief Sets the tile type at the specified coordinates.
+   * @brief Sets the tile at the specified coordinates.
    * @param x The x-coordinate.
    * @param y The y-coordinate.
-   * @param type The TileType to set.
+   * @param tile The Tile to set.
    */
-  void SetTile(int x, int y, TileType type) {
+  void SetTile(int x, int y, const Tile& tile) {
     if (x >= 0 && x < width_ && y >= 0 && y < height_) {
-      tiles_[y * width_ + x] = type;
+      tiles_[y * width_ + x] = tile;
+    }
+  }
+
+  /**
+   * @brief Helper to set just the type of a tile.
+   */
+  void SetTileType(int x, int y, TileType type) {
+    if (x >= 0 && x < width_ && y >= 0 && y < height_) {
+      tiles_[y * width_ + x].type = type;
     }
   }
 
@@ -70,14 +79,14 @@ class MapData {
    * @return True if the tile is floor or contains an interactable object, false if it's a wall or empty.
    */
   bool IsWalkable(int x, int y) const {
-    TileType type = GetTile(x, y);
+    TileType type = GetTile(x, y).type;
     return type != TileType::kWall && type != TileType::kNone;
   }
 
  private:
   int width_;
   int height_;
-  std::vector<TileType> tiles_;
+  std::vector<Tile> tiles_;
   glm::ivec2 player_pos_ = {0, 0};
 };
 
