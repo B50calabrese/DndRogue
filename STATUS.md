@@ -68,13 +68,18 @@ This file tracks the current progress, state of the game, and infrastructure. **
 ### BattleScene
 - **Intent**: Tactical isometric combat.
 - **Lifecycle Methods**:
-  - [x] `OnAttach`: Logging implemented.
+  - [x] `OnAttach`: Camera initialization and UI setup.
   - [x] `OnDetach`: Logging implemented.
-  - [ ] `OnUpdate`: Stub.
-  - [ ] `OnRender`: Stub.
-  - [ ] `OnInput`: Stub.
+  - [x] `OnUpdate`: Camera movement (WASD) and UI layout responsiveness.
+  - [x] `OnRender`: Isometric grid line rendering.
+  - [x] `OnInput`: Input handling for scene logic.
 - **Features**:
-  - [ ] Isometric grid rendering.
+  - [x] Isometric grid rendering (configurable size, 2:1 aspect ratio).
+  - [x] Camera panning with WASD, constrained to grid boundaries (no void visible).
+  - [x] Responsive UI layout:
+    - [x] Status bar (10% height) at top.
+    - [x] Command bar (10% height) at bottom with 10x2 grid of slots.
+    - [x] Character portraits (up to 10% width) on left side with placeholder health bars.
   - [ ] Combatant turn logic.
   - [ ] Action/Ability execution.
 
@@ -91,7 +96,7 @@ This file tracks the current progress, state of the game, and infrastructure. **
   - [ ] Inventory/Settings management.
 
 ## Recommendations for Next Steps
-1. **Scene Navigation**: Implement the logic to transition from `MainMenuScene` to `StartRunScene` and then to `OverworldScene`.
-2. **UI Framework**: Integrate or implement a basic UI rendering system (potentially using ImGui if supported by the engine) to handle buttons and menus.
-3. **Data Models**: Expand the `Character` class with stats, skills, and items. Define enemy data models.
-4. **Isometric Rendering**: Start implementing the isometric coordinate system and grid rendering in `BattleScene`.
+1. **Combat Entities**: Implement rendering of combatants (players and enemies) on the isometric grid.
+2. **Pathfinding**: Implement A* or similar pathfinding for isometric movement.
+3. **Combat Logic**: Begin implementing turn-based state machine and action system.
+4. **Interaction**: Make command bar slots interactive to trigger abilities/actions.
