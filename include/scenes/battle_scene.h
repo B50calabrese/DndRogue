@@ -2,17 +2,14 @@
 #define DND_ROGUE_SCENES_BATTLE_SCENE_H_
 
 #include <engine/scene/scene.h>
-#include <engine/graphics/camera.h>
 #include <memory>
 #include <vector>
+#include "core/battle/battle_camera.h"
 
 namespace dnd_rogue::scenes {
 
 /**
  * @brief Scene for isometric combat encounters.
- *
- * This scene handles the tactical, turn-based battle logic in an
- * isometric perspective.
  */
 class BattleScene : public engine::Scene {
  public:
@@ -26,18 +23,15 @@ class BattleScene : public engine::Scene {
   bool OnInput() override;
 
  private:
-  void CreateUI();
   void UpdateLayout();
-  glm::vec2 WorldToIsometric(float x, float y) const;
-  void ClampCamera();
 
   // Grid configuration
   int grid_width_ = 20;
   int grid_height_ = 20;
   float tile_width_ = 64.0f;
-  float tile_height_ = 32.0f; // 2:1 aspect ratio
+  float tile_height_ = 32.0f;
 
-  std::unique_ptr<engine::graphics::Camera> camera_;
+  std::unique_ptr<core::battle::BattleCamera> camera_manager_;
 
   // UI Entity IDs
   engine::ecs::EntityID status_bar_ = engine::ecs::INVALID_ENTITY;
