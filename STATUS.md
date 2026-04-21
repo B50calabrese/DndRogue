@@ -3,6 +3,7 @@
 This file tracks the current progress, state of the game, and infrastructure. **All agents are required to update this file as the final step of their task.**
 
 ## Most Recent Changes
+- Refactored `BattleScene` to use dedicated manager classes (`BattleUIManager`, `BattleCamera`, `GridRenderer`) for better maintainability.
 - Added project status tracking system (`STATUS.md` and `AGENTS.md` updates).
 - Initial project skeleton created.
 - `GameEngine` submodule integrated.

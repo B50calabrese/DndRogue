@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include "core/battle/battle_camera.h"
+#include "core/battle/battle_ui_manager.h"
 
 namespace dnd_rogue::scenes {
 
@@ -32,12 +33,7 @@ class BattleScene : public engine::Scene {
   float tile_height_ = 32.0f;
 
   std::unique_ptr<core::battle::BattleCamera> camera_manager_;
-
-  // UI Entity IDs
-  engine::ecs::EntityID status_bar_ = engine::ecs::INVALID_ENTITY;
-  engine::ecs::EntityID command_bar_ = engine::ecs::INVALID_ENTITY;
-  engine::ecs::EntityID portraits_container_ = engine::ecs::INVALID_ENTITY;
-  std::vector<engine::ecs::EntityID> portrait_entities_;
+  std::unique_ptr<core::battle::BattleUIManager> ui_manager_;
 
   float last_window_width_ = 0;
   float last_window_height_ = 0;

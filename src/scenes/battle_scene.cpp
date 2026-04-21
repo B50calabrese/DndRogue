@@ -4,7 +4,6 @@
 #include "engine/core/engine.h"
 #include "engine/graphics/text_renderer.h"
 #include "engine/util/logger.h"
-#include "core/battle/battle_ui_utils.h"
 #include "core/battle/grid_renderer.h"
 
 namespace dnd_rogue::scenes {
@@ -25,9 +24,7 @@ void BattleScene::OnAttach() {
   engine::graphics::TextRenderer::Get().LoadFont(
       "small_battle_font", "fonts/menu_font.ttf", 14);
 
-  status_bar_ = core::battle::BattleUIUtils::CreateStatusBar(registry_);
-  command_bar_ = core::battle::BattleUIUtils::CreateCommandBar(registry_);
-  portraits_container_ = core::battle::BattleUIUtils::CreatePortraits(registry_, portrait_entities_);
+  ui_manager_ = std::make_unique<core::battle::BattleUIManager>(registry_);
 
   // Initial Layout
   UpdateLayout();
@@ -72,15 +69,17 @@ void BattleScene::UpdateLayout() {
     camera_manager_->Resize(last_window_width_, last_window_height_);
   }
 
-  core::battle::BattleUIUtils::LayoutInfo info;
-  info.sw = last_window_width_;
-  info.sh = last_window_height_;
-  info.sb_h = info.sh * 0.1f;
-  info.cb_h = info.sh * 0.1f;
-  info.p_area_h = info.sh - info.sb_h - info.cb_h;
-  info.p_w = info.sw * 0.1f;
+  if (ui_manager_) {
+    core::battle::BattleUIManager::LayoutInfo info;
+    info.screen_width = last_window_width_;
+    info.screen_height = last_window_height_;
+    info.status_bar_height = info.screen_height * 0.1f;
+    info.command_bar_height = info.screen_height * 0.1f;
+    info.portrait_area_height = info.screen_height - info.status_bar_height - info.command_bar_height;
+    info.portrait_width = info.screen_width * 0.1f;
 
-  core::battle::BattleUIUtils::UpdateLayout(registry_, info, status_bar_, command_bar_, portraits_container_, portrait_entities_);
+    ui_manager_->UpdateLayout(info);
+  }
 }
 
 }  // namespace dnd_rogue::scenes
