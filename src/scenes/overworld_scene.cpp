@@ -9,6 +9,8 @@
 #include "engine/input/input_manager.h"
 #include "core/overworld/room_generator.h"
 #include "core/overworld/overworld_utils.h"
+#include "scenes/battle_scene.h"
+#include "engine/scene/scene_manager.h"
 
 namespace dnd_rogue::scenes {
 
@@ -78,6 +80,11 @@ bool OverworldScene::OnInput() {
   }
   if (input.IsKeyPressed(engine::KeyCode::kD) || input.IsKeyPressed(engine::KeyCode::kRight)) {
     HandleMovement(1, 0);
+    return true;
+  }
+
+  if (input.IsKeyPressed(engine::KeyCode::kB)) {
+    engine::SceneManager::Get().SetScene(std::make_unique<BattleScene>());
     return true;
   }
 
