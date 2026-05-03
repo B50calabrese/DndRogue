@@ -1,6 +1,5 @@
 #include "scenes/menu_scene.h"
 
-#include <iostream>
 #include "engine/util/logger.h"
 
 namespace dnd_rogue::scenes {
@@ -16,15 +15,12 @@ void MenuScene::OnDetach() {
 }
 
 void MenuScene::OnUpdate(float delta_time_seconds) {
-  // Logic for handling in-game menu options.
 }
 
 void MenuScene::OnRender() {
-  // Render the pause menu overlay.
 }
 
 bool MenuScene::OnInput() {
-  // Handle menu navigation while paused.
   return false;
 }
 

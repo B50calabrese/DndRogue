@@ -2,15 +2,11 @@
 #define DND_ROGUE_SCENES_BATTLE_SCENE_H_
 
 #include <engine/scene/scene.h>
-#include <memory>
-#include <vector>
-#include "core/battle/battle_camera.h"
-#include "core/battle/battle_ui_manager.h"
 
 namespace dnd_rogue::scenes {
 
 /**
- * @brief Scene for isometric combat encounters.
+ * @brief Skeleton for the Battle scene.
  */
 class BattleScene : public engine::Scene {
  public:
@@ -22,21 +18,6 @@ class BattleScene : public engine::Scene {
   void OnUpdate(float delta_time_seconds) override;
   void OnRender() override;
   bool OnInput() override;
-
- private:
-  void UpdateLayout();
-
-  // Grid configuration
-  int grid_width_ = 20;
-  int grid_height_ = 20;
-  float tile_width_ = 64.0f;
-  float tile_height_ = 32.0f;
-
-  std::unique_ptr<core::battle::BattleCamera> camera_manager_;
-  std::unique_ptr<core::battle::BattleUIManager> ui_manager_;
-
-  float last_window_width_ = 0;
-  float last_window_height_ = 0;
 };
 
 }  // namespace dnd_rogue::scenes
