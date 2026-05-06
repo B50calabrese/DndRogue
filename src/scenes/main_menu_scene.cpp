@@ -11,7 +11,7 @@
 #include "engine/scene/scene_manager.h"
 #include "engine/ui/ui_components.h"
 #include "engine/util/logger.h"
-#include "scenes/start_run_scene.h"
+#include "scenes/overworld_scene.h"
 #include "core/ui_utils.h"
 
 namespace dnd_rogue::scenes {
@@ -46,7 +46,7 @@ void MainMenuScene::OnAttach() {
       registry_, {button_x, screen_height * 2.0f / 3.0f}, button_size,
       "Start run", "menu_font", kButtonInteriorColor, kButtonHoverColor,
       kButtonBorderColor, kTextColor, []() {
-        engine::SceneManager::Get().SetScene(std::make_unique<StartRunScene>());
+        engine::SceneManager::Get().SetScene(std::make_unique<OverworldScene>());
       });
 
   // 3. Exit Button

@@ -1,10 +1,10 @@
-# AI Agent Guidance for DndRogue
+# AI Agent Guidance
 
 Welcome, AI agent! This file provides guidance on how to contribute to this repository.
 
 ## Project Status and Progress
-- **Status File**: Current progress, scene status, and infrastructure details are tracked in [STATUS.md](STATUS.md).
-- **Mandatory Update**: As the final step of any task, you **must** update [STATUS.md](STATUS.md) with your changes, the new state of any modified scenes/infrastructure, and your recommendations for future work.
+- **Status File**: Current progress and infrastructure details are tracked in [STATUS.md](STATUS.md).
+- **Mandatory Update**: As the final step of any task, you **must** update [STATUS.md](STATUS.md) with your changes.
 
 ## Coding Standards
 
@@ -19,8 +19,8 @@ Welcome, AI agent! This file provides guidance on how to contribute to this repo
 
 ## Architecture
 
-- **GameEngine**: The core engine functionality is located in the `GameEngine/` submodule. Do not modify the engine code unless necessary for a cross-repo feature or bug fix.
-- **DndRogueLibrary**: Most game logic should reside in a library target defined in `CMakeLists.txt` to facilitate testing.
+- **GameEngine**: The core engine functionality is located in the `GameEngine/` submodule. Do not modify the engine code unless necessary.
+- **Library**: Most game logic should reside in a library target defined in `CMakeLists.txt` to facilitate testing.
 - **Lifecycle**: The main application subclasses `engine::Application`. Use `OnInit`, `OnUpdate`, and `OnShutdown` for lifecycle management.
 
 ## Testing
@@ -35,14 +35,11 @@ Welcome, AI agent! This file provides guidance on how to contribute to this repo
 - The build system copies assets to the build directory so they can be loaded using relative paths.
 - Use the `ENGINE_ASSETS_PATH` macro in C++ code to reference the asset directory.
 
-## Scenes and Their Intentions
+## Scenes
 
-To maintain consistency and help future agents understand the game's flow, here is an overview of the initial scenes:
+The following scene skeletons are available:
 
-- **MainMenuScene**: The entry point of the game. Handles top-level navigation (New Game, Settings, Quit).
-- **StartRunScene**: The transition between the main menu and the game. Responsible for character selection, difficulty settings, and other pre-run configurations.
-- **OverworldScene**: The primary exploration hub of the roguelike. Manages map navigation, event triggers, and movement between combat encounters.
-- **BattleScene**: Handles the isometric combat encounters. This is where tactical, turn-based battle logic resides.
-- **MenuScene**: An in-game/pause menu. Intended to be pushed onto the scene stack to allow for inventory management, settings, or pausing without losing current scene state.
-
-Please ensure any new logic related to these areas is implemented in their respective scene classes.
+- **MainMenuScene**: The entry point of the game.
+- **OverworldScene**: Intended for exploration or a main game hub.
+- **BattleScene**: Intended for specialized encounters or combat.
+- **MenuScene**: An in-game/pause menu.
