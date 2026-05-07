@@ -15,8 +15,26 @@
 
 namespace dnd_rogue::scenes {
 
-using namespace dnd_rogue::core;
-using namespace dnd_rogue::overworld;
+using dnd_rogue::core::kScaledTileSize;
+using dnd_rogue::core::kTileOutlineThickness;
+using dnd_rogue::core::kTileScale;
+using dnd_rogue::core::kWindowHeight;
+using dnd_rogue::core::kWindowWidth;
+using dnd_rogue::core::kPlayerSpeed;
+using dnd_rogue::core::kColorFloor;
+using dnd_rogue::core::kColorFloorInner;
+using dnd_rogue::core::kColorWall;
+using dnd_rogue::core::kColorWallInner;
+using dnd_rogue::core::kColorNPC;
+using dnd_rogue::core::kColorNPCInner;
+using dnd_rogue::core::kColorPlayer;
+using dnd_rogue::core::kColorPlayerInner;
+using dnd_rogue::core::ScreenToWorld;
+using dnd_rogue::overworld::DungeonGenerator;
+using dnd_rogue::overworld::HubGenerator;
+using dnd_rogue::overworld::IMapGenerator;
+using dnd_rogue::overworld::TileType;
+using dnd_rogue::overworld::FindPath;
 
 OverworldScene::OverworldScene() : engine::Scene("OverworldScene") {
   camera_ = std::make_unique<engine::graphics::Camera>(
