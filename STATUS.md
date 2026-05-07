@@ -20,6 +20,12 @@ This file tracks the current progress and infrastructure of the project.
 
 ### Scenes
 - **MainMenuScene**: Functional with basic UI (Start Run, Exit). Transitions to `OverworldScene`.
-- **OverworldScene**: Skeleton stub.
+- **OverworldScene**: Fully functional implementation of exploration mode.
+    - Tile-based rendering (16x16 pixels scaled by 3x).
+    - Grid-based A* pathfinding for mouse-click movement.
+    - Smooth character interpolation.
+    - Centered camera with map boundary clamping.
+    - Support for Hub world (loaded from text file) and Procedural Dungeons.
+    - NPC placement support in generators.
 - **BattleScene**: Skeleton stub.
 - **MenuScene**: Skeleton stub.

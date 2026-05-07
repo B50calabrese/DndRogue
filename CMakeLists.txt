@@ -12,6 +12,10 @@ add_subdirectory("GameEngine")
 set(SOURCE_FILES
     "src/dnd_rogue_app.cpp"
     "src/core/ui_utils.cpp"
+    "src/core/math_utils.cpp"
+    "src/overworld/hub_generator.cpp"
+    "src/overworld/dungeon_generator.cpp"
+    "src/overworld/pathfinding.cpp"
     "src/scenes/battle_scene.cpp"
     "src/scenes/main_menu_scene.cpp"
     "src/scenes/menu_scene.cpp"
