@@ -39,8 +39,13 @@ MapData HubGenerator::Generate() {
     for (int x = 0; x < static_cast<int>(current_line.length()); ++x) {
       char c = current_line[x];
       TileType type = TileType::kFloor;
-      if (c == '#') type = TileType::kWall;
-      else if (c == 'N') type = TileType::kNpcPlaceholder;
+      if (c == '#') {
+        type = TileType::kWall;
+      } else if (c == 'N') {
+        map.entities.push_back({EntityType::kNPC, {x, y}});
+      } else if (c == 'E') {
+        map.entities.push_back({EntityType::kEnemy, {x, y}});
+      }
 
       map.SetTile(x, y, type);
     }

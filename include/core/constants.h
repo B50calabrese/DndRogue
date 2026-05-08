@@ -25,7 +25,9 @@ const glm::vec4 kColorWallInner = {0.4f, 0.4f, 0.4f, 1.0f};
 const glm::vec4 kColorPlayer = {0.0f, 0.0f, 0.0f, 1.0f};
 const glm::vec4 kColorPlayerInner = {0.0f, 0.8f, 0.0f, 1.0f};
 const glm::vec4 kColorNPC = {0.0f, 0.0f, 0.0f, 1.0f};
-const glm::vec4 kColorNPCInner = {0.8f, 0.0f, 0.0f, 1.0f};
+const glm::vec4 kColorNPCInner = {0.0f, 0.0f, 0.8f, 1.0f};
+const glm::vec4 kColorEnemy = {0.0f, 0.0f, 0.0f, 1.0f};
+const glm::vec4 kColorEnemyInner = {0.8f, 0.0f, 0.0f, 1.0f};
 
 // Gameplay settings
 constexpr float kPlayerSpeed = 200.0f; // pixels per second

@@ -34,14 +34,15 @@ MapData DungeonGenerator::Generate() {
     else if (dir == 3 && y > 1) y--;
   }
 
-  // Add some NPCs
-  int npcs_to_place = 5;
-  while (npcs_to_place > 0) {
+  // Add some NPCs and enemies
+  int entities_to_place = 10;
+  while (entities_to_place > 0) {
     int nx = dis_x(gen);
     int ny = dis_y(gen);
     if (map.GetTile(nx, ny) == TileType::kFloor) {
-      map.SetTile(nx, ny, TileType::kNpcPlaceholder);
-      npcs_to_place--;
+      EntityType type = (entities_to_place % 2 == 0) ? EntityType::kNPC : EntityType::kEnemy;
+      map.entities.push_back({type, {nx, ny}});
+      entities_to_place--;
     }
   }
 
