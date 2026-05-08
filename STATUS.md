@@ -26,6 +26,10 @@ This file tracks the current progress and infrastructure of the project.
     - Smooth character interpolation.
     - Centered camera with map boundary clamping.
     - Support for Hub world (loaded from text file) and Procedural Dungeons.
-    - NPC placement support in generators.
-- **BattleScene**: Skeleton stub.
+    - Separate entity storage (NPCs and Enemies) in `MapData`.
+    - Collision detection with enemies triggers `BattleScene` transition.
+    - State serialization for seamless return from other scenes.
+- **BattleScene**: Functional placeholder.
+    - Displays "Battling" for 2 seconds.
+    - Transitions back to `OverworldScene` with state preservation.
 - **MenuScene**: Skeleton stub.

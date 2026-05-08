@@ -7,6 +7,8 @@
 #include "core/math_utils.h"
 #include "engine/core/application.h"
 #include "engine/graphics/renderer.h"
+#include "engine/scene/scene_manager.h"
+#include "scenes/battle_scene.h"
 #include "engine/input/input_manager.h"
 #include "engine/util/logger.h"
 #include "overworld/dungeon_generator.h"
@@ -29,6 +31,8 @@ using dnd_rogue::core::kColorNPC;
 using dnd_rogue::core::kColorNPCInner;
 using dnd_rogue::core::kColorPlayer;
 using dnd_rogue::core::kColorPlayerInner;
+using dnd_rogue::core::kColorEnemy;
+using dnd_rogue::core::kColorEnemyInner;
 using dnd_rogue::core::ScreenToWorld;
 using dnd_rogue::overworld::DungeonGenerator;
 using dnd_rogue::overworld::HubGenerator;
@@ -42,10 +46,23 @@ OverworldScene::OverworldScene() : engine::Scene("OverworldScene") {
       static_cast<float>(kWindowHeight));
 }
 
+OverworldScene::OverworldScene(const OverworldState& state)
+    : engine::Scene("OverworldScene"),
+      map_data_(state.map_data),
+      player_pos_(state.player_pos),
+      is_hub_(state.is_hub) {
+  camera_ = std::make_unique<engine::graphics::Camera>(
+      0, static_cast<float>(kWindowWidth), 0,
+      static_cast<float>(kWindowHeight));
+  camera_->set_position(state.camera_pos);
+}
+
 void OverworldScene::OnAttach() {
   LOG_INFO("OverworldScene: Attached");
-  LoadMap(std::make_unique<HubGenerator>(
-      engine::graphics::Renderer::Get().ResolveAssetPath("maps/hub.txt")));
+  if (map_data_.tiles.empty()) {
+    LoadMap(std::make_unique<HubGenerator>(
+        engine::graphics::Renderer::Get().ResolveAssetPath("maps/hub.txt")));
+  }
 }
 
 void OverworldScene::OnDetach() {
@@ -93,6 +110,38 @@ void OverworldScene::HandleMovement(float delta_time) {
   if (move_dist >= dist) {
     player_pos_ = target_pos;
     path_index_++;
+
+    // Check for enemy interaction
+    for (auto it = map_data_.entities.begin(); it != map_data_.entities.end();
+         ++it) {
+      if (it->type == dnd_rogue::overworld::EntityType::kEnemy &&
+          it->tile_pos == target_tile) {
+        // Stop movement
+        current_path_.clear();
+        path_index_ = 0;
+
+        // Save state and transition
+        OverworldState state;
+        state.map_data = map_data_;
+        state.player_pos = player_pos_;
+        state.camera_pos = camera_->position();
+        state.is_hub = is_hub_;
+
+        // Remove the enemy that we collided with from the saved state
+        for (auto it2 = state.map_data.entities.begin();
+             it2 != state.map_data.entities.end(); ++it2) {
+          if (it2->type == dnd_rogue::overworld::EntityType::kEnemy &&
+              it2->tile_pos == target_tile) {
+            state.map_data.entities.erase(it2);
+            break;
+          }
+        }
+
+        engine::SceneManager::Get().SetScene(
+            std::make_unique<BattleScene>(state));
+        return;
+      }
+    }
   } else {
     player_pos_ += glm::normalize(target_pos - player_pos_) * move_dist;
   }
@@ -127,6 +176,7 @@ void OverworldScene::UpdateCamera(float delta_time) {
 void OverworldScene::OnRender() {
   engine::graphics::Renderer::Get().BeginFrame(*camera_);
   RenderMap();
+  RenderEntities();
   RenderPlayer();
   engine::graphics::Renderer::Get().EndFrame();
 }
@@ -143,9 +193,6 @@ void OverworldScene::RenderMap() {
       if (type == TileType::kWall) {
         outer_color = kColorWall;
         inner_color = kColorWallInner;
-      } else if (type == TileType::kNpcPlaceholder) {
-        outer_color = kColorNPC;
-        inner_color = kColorNPCInner;
       }
 
       glm::vec2 pos = glm::vec2(x * kScaledTileSize, y * kScaledTileSize);
@@ -160,6 +207,31 @@ void OverworldScene::RenderMap() {
           size - glm::vec2(kTileOutlineThickness * kTileScale * 2.0f);
       renderer.DrawQuad(inner_pos, inner_size, inner_color);
     }
+  }
+}
+
+void OverworldScene::RenderEntities() {
+  auto& renderer = engine::graphics::Renderer::Get();
+
+  for (const auto& entity : map_data_.entities) {
+    glm::vec4 outer_color = kColorNPC;
+    glm::vec4 inner_color = kColorNPCInner;
+
+    if (entity.type == dnd_rogue::overworld::EntityType::kEnemy) {
+      outer_color = kColorEnemy;
+      inner_color = kColorEnemyInner;
+    }
+
+    glm::vec2 pos = glm::vec2(entity.tile_pos.x * kScaledTileSize,
+                              entity.tile_pos.y * kScaledTileSize);
+    glm::vec2 size = glm::vec2(kScaledTileSize, kScaledTileSize);
+
+    renderer.DrawQuad(pos, size, outer_color);
+
+    glm::vec2 inner_pos = pos + glm::vec2(kTileOutlineThickness * kTileScale);
+    glm::vec2 inner_size =
+        size - glm::vec2(kTileOutlineThickness * kTileScale * 2.0f);
+    renderer.DrawQuad(inner_pos, inner_size, inner_color);
   }
 }
 

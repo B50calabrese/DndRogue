@@ -11,12 +11,20 @@
 
 namespace dnd_rogue::scenes {
 
+struct OverworldState {
+  overworld::MapData map_data;
+  glm::vec2 player_pos;
+  glm::vec3 camera_pos;
+  bool is_hub;
+};
+
 /**
  * @brief Scene for the overworld exploration.
  */
 class OverworldScene : public engine::Scene {
  public:
   OverworldScene();
+  explicit OverworldScene(const OverworldState& state);
   ~OverworldScene() override = default;
 
   void OnAttach() override;
@@ -30,6 +38,7 @@ class OverworldScene : public engine::Scene {
   void UpdateCamera(float delta_time);
   void HandleMovement(float delta_time);
   void RenderMap();
+  void RenderEntities();
   void RenderPlayer();
 
   overworld::MapData map_data_;
