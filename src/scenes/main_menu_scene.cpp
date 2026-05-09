@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <memory>
+#include <random>
 
 #include "engine/core/engine.h"
 #include "engine/ecs/components/quad.h"
@@ -12,6 +13,7 @@
 #include "engine/ui/ui_components.h"
 #include "engine/util/logger.h"
 #include "scenes/overworld_scene.h"
+#include "core/run_state.h"
 #include "core/ui_utils.h"
 
 namespace dnd_rogue::scenes {
@@ -46,6 +48,15 @@ void MainMenuScene::OnAttach() {
       registry_, {button_x, screen_height * 2.0f / 3.0f}, button_size,
       "Start run", "menu_font", kButtonInteriorColor, kButtonHoverColor,
       kButtonBorderColor, kTextColor, []() {
+        // Initialize a new run with a random seed
+        std::random_device rd;
+        std::mt19937_64 gen(rd());
+        std::uniform_int_distribution<uint64_t> dis;
+        uint64_t seed = dis(gen);
+
+        core::RunState::Get().Initialize(seed);
+        LOG_INFO("Starting new run with seed: {}", seed);
+
         engine::SceneManager::Get().SetScene(std::make_unique<OverworldScene>());
       });
 
