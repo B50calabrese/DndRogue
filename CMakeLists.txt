@@ -13,6 +13,7 @@ set(SOURCE_FILES
     "src/dnd_rogue_app.cpp"
     "src/core/ui_utils.cpp"
     "src/core/math_utils.cpp"
+    "src/core/run_state.cpp"
     "src/overworld/hub_generator.cpp"
     "src/overworld/dungeon_generator.cpp"
     "src/overworld/pathfinding.cpp"
