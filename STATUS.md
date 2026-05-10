@@ -8,14 +8,14 @@ This file tracks the current progress and infrastructure of the project.
 - Kept scene structure: MainMenuScene, OverworldScene, BattleScene, MenuScene.
 - Updated MainMenuScene to transition directly to OverworldScene.
 - Kept `UIUtils` as a generic utility.
-- Implemented `RunState` singleton for sharing game state across scenes.
+- Expanded `RunState` to track player gold and collections of Characters, Combat Cards, and Items.
 
 ## Current State of Infrastructure
 
 ### Core Application
 - **Lifecycle**: Functional skeleton in `DndRogueApp`.
 - **Scene Management**: Starts in `MainMenuScene`.
-- **Global State**: `RunState` singleton manages run-specific data (e.g., random seed).
+- **Global State**: `RunState` singleton manages run-specific data (seed, gold, and player collections).
 
 ### GameEngine Integration
 - **Submodule**: Integrated and configured.
