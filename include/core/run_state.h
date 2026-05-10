@@ -2,31 +2,13 @@
 #define DND_ROGUE_CORE_RUN_STATE_H_
 
 #include <cstdint>
-#include <string>
 #include <vector>
 
+#include "core/collection/character.h"
+#include "core/collection/combat_card.h"
+#include "core/collection/item.h"
+
 namespace dnd_rogue::core {
-
-/**
- * @brief Represents a character in the player's collection.
- */
-struct Character {
-  std::string name;
-};
-
-/**
- * @brief Represents a combat card in the player's collection.
- */
-struct CombatCard {
-  std::string name;
-};
-
-/**
- * @brief Represents an item in the player's collection.
- */
-struct Item {
-  std::string name;
-};
 
 /**
  * @brief Represents the current state of a game run.
@@ -69,32 +51,59 @@ class RunState {
   /**
    * @brief Returns the collection of characters.
    */
-  const std::vector<Character>& GetCharacters() const { return characters_; }
+  const std::vector<collection::Character>& GetCharacters() const { return characters_; }
 
   /**
    * @brief Adds a character to the collection.
    */
-  void AddCharacter(const Character& character) { characters_.push_back(character); }
+  void AddCharacter(const collection::Character& character) { characters_.push_back(character); }
+
+  /**
+   * @brief Removes a character from the collection by index.
+   */
+  void RemoveCharacter(size_t index) {
+    if (index < characters_.size()) {
+      characters_.erase(characters_.begin() + index);
+    }
+  }
 
   /**
    * @brief Returns the collection of combat cards.
    */
-  const std::vector<CombatCard>& GetCombatCards() const { return combat_cards_; }
+  const std::vector<collection::CombatCard>& GetCombatCards() const { return combat_cards_; }
 
   /**
    * @brief Adds a combat card to the collection.
    */
-  void AddCombatCard(const CombatCard& card) { combat_cards_.push_back(card); }
+  void AddCombatCard(const collection::CombatCard& card) { combat_cards_.push_back(card); }
+
+  /**
+   * @brief Removes a combat card from the collection by index.
+   */
+  void RemoveCombatCard(size_t index) {
+    if (index < combat_cards_.size()) {
+      combat_cards_.erase(combat_cards_.begin() + index);
+    }
+  }
 
   /**
    * @brief Returns the collection of items.
    */
-  const std::vector<Item>& GetItems() const { return items_; }
+  const std::vector<collection::Item>& GetItems() const { return items_; }
 
   /**
    * @brief Adds an item to the collection.
    */
-  void AddItem(const Item& item) { items_.push_back(item); }
+  void AddItem(const collection::Item& item) { items_.push_back(item); }
+
+  /**
+   * @brief Removes an item from the collection by index.
+   */
+  void RemoveItem(size_t index) {
+    if (index < items_.size()) {
+      items_.erase(items_.begin() + index);
+    }
+  }
 
   /**
    * @brief Serializes the current state into a byte buffer.
@@ -117,9 +126,9 @@ class RunState {
 
   uint64_t seed_ = 0;
   int32_t gold_ = 0;
-  std::vector<Character> characters_;
-  std::vector<CombatCard> combat_cards_;
-  std::vector<Item> items_;
+  std::vector<collection::Character> characters_;
+  std::vector<collection::CombatCard> combat_cards_;
+  std::vector<collection::Item> items_;
 };
 
 }  // namespace dnd_rogue::core

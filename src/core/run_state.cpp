@@ -4,24 +4,6 @@
 
 namespace dnd_rogue::core {
 
-RunState& RunState::Get() {
-  static RunState instance;
-  return instance;
-}
-
-void RunState::Initialize(uint64_t seed) {
-  seed_ = seed;
-  gold_ = 100;  // Default starting gold
-  characters_.clear();
-  combat_cards_.clear();
-  items_.clear();
-
-  // Add "test" items
-  characters_.push_back({"Test Character"});
-  combat_cards_.push_back({"Test Card"});
-  items_.push_back({"Test Item"});
-}
-
 namespace {
 // Helper functions for serialization
 void WriteUint64(std::vector<uint8_t>& buffer, uint64_t value) {
@@ -65,6 +47,24 @@ std::string ReadString(const std::vector<uint8_t>& data, size_t& offset) {
   return str;
 }
 }  // namespace
+
+RunState& RunState::Get() {
+  static RunState instance;
+  return instance;
+}
+
+void RunState::Initialize(uint64_t seed) {
+  seed_ = seed;
+  gold_ = 100;  // Default starting gold
+  characters_.clear();
+  combat_cards_.clear();
+  items_.clear();
+
+  // Add "test" items
+  characters_.push_back({"Test Character"});
+  combat_cards_.push_back({"Test Card"});
+  items_.push_back({"Test Item"});
+}
 
 std::vector<uint8_t> RunState::Serialize() const {
   std::vector<uint8_t> buffer;

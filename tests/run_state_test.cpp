@@ -49,6 +49,19 @@ TEST(RunStateTest, CollectionModification) {
   state.AddItem({"Potion"});
   EXPECT_EQ(state.GetItems().size(), 2);
   EXPECT_EQ(state.GetItems()[1].name, "Potion");
+
+  // Test removal
+  state.RemoveCharacter(0);
+  EXPECT_EQ(state.GetCharacters().size(), 1);
+  EXPECT_EQ(state.GetCharacters()[0].name, "Warrior");
+
+  state.RemoveCombatCard(0);
+  EXPECT_EQ(state.GetCombatCards().size(), 1);
+  EXPECT_EQ(state.GetCombatCards()[0].name, "Slash");
+
+  state.RemoveItem(0);
+  EXPECT_EQ(state.GetItems().size(), 1);
+  EXPECT_EQ(state.GetItems()[0].name, "Potion");
 }
 
 TEST(RunStateTest, Serialization) {
