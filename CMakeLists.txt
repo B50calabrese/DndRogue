@@ -10,10 +10,12 @@ add_subdirectory("GameEngine")
 
 # 2. SOURCE AND HEADER SETUP
 set(SOURCE_FILES
+    "third_party/pugixml/pugixml.cpp"
     "src/dnd_rogue_app.cpp"
     "src/core/ui_utils.cpp"
     "src/core/math_utils.cpp"
     "src/core/run_state.cpp"
+    "src/core/data_registry.cpp"
     "src/overworld/hub_generator.cpp"
     "src/overworld/dungeon_generator.cpp"
     "src/overworld/pathfinding.cpp"
@@ -48,7 +50,10 @@ target_compile_definitions(DndRogueLibrary PUBLIC
 target_link_libraries(DndRogueLibrary PUBLIC GameEngine)
 
 # Ensure the game's include folder is PUBLIC so anyone linking to it sees it
-target_include_directories(DndRogueLibrary PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_include_directories(DndRogueLibrary PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/third_party"
+)
 
 # 5. CREATE THE MAIN EXECUTABLE
 add_executable(DndRogue "src/main.cpp")

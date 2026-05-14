@@ -2,7 +2,11 @@
 #define DND_ROGUE_CORE_RUN_STATE_H_
 
 #include <cstdint>
+#include <string>
 #include <vector>
+
+#include "core/card.h"
+#include "core/commander.h"
 
 namespace dnd_rogue::core {
 
@@ -40,6 +44,22 @@ class RunState {
    */
   void Deserialize(const std::vector<uint8_t>& data);
 
+  // Run data accessors
+  int32_t GetGold() const { return gold_; }
+  void SetGold(int32_t gold) { gold_ = gold; }
+  void AddGold(int32_t amount) { gold_ += amount; }
+
+  const std::vector<Card>& GetCollection() const { return collection_; }
+  void AddToCollection(const Card& card) { collection_.push_back(card); }
+
+  const std::vector<Card>& GetDeck() const { return deck_; }
+  void AddToDeck(const Card& card) { deck_.push_back(card); }
+
+  const std::vector<Commander>& GetCommanders() const { return commanders_; }
+  void AddCommander(const Commander& commander) {
+    commanders_.push_back(commander);
+  }
+
  private:
   RunState() = default;
   ~RunState() = default;
@@ -49,6 +69,10 @@ class RunState {
   RunState& operator=(const RunState&) = delete;
 
   uint64_t seed_ = 0;
+  int32_t gold_ = 0;
+  std::vector<Card> collection_;
+  std::vector<Card> deck_;
+  std::vector<Commander> commanders_;
 };
 
 }  // namespace dnd_rogue::core
