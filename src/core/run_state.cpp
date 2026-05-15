@@ -4,19 +4,6 @@
 
 namespace dnd_rogue::core {
 
-RunState& RunState::Get() {
-  static RunState instance;
-  return instance;
-}
-
-void RunState::Initialize(uint64_t seed) {
-  seed_ = seed;
-  gold_ = 0;
-  collection_.clear();
-  deck_.clear();
-  commanders_.clear();
-}
-
 namespace {
 // Helper functions for serialization
 void WriteUint64(std::vector<uint8_t>& buffer, uint64_t value) {
@@ -90,6 +77,19 @@ Commander ReadCommander(const std::vector<uint8_t>& data, size_t& offset) {
   return commander;
 }
 }  // namespace
+
+RunState& RunState::Get() {
+  static RunState instance;
+  return instance;
+}
+
+void RunState::Initialize(uint64_t seed) {
+  seed_ = seed;
+  gold_ = 0;
+  collection_.clear();
+  deck_.clear();
+  commanders_.clear();
+}
 
 std::vector<uint8_t> RunState::Serialize() const {
   std::vector<uint8_t> buffer;
